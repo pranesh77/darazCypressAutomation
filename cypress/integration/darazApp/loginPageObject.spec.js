@@ -1,28 +1,38 @@
-import LoginPage from '../../PageObject/LoginPage'
+import loginPg from '../../PageObject/LoginPage.js'
+// import LoginPage from '../../PageObject/LoginPage.js'
+
 
 describe('Login Suite', function () {
 
     let MOBILE_NUMBER = "9803056815";
     let PASSWORD = "Testing@321"
-
+ 
     before(function(){
         cy.fixture('login').then(function(data){
             this.data = data;
         })
+        cy.visit("/");  // defined in cypress.json file
+
     })
 
     it('Login Test Page Object', function () {
 
         cy.log('----------------- This is Login Test Via Page Object ---------------');
 
-        const loginPage = new LoginPage();
-        loginPage.visitSite();
-        loginPage.fillMobileNum("9803056815");
-        loginPage.fillPassword("Testing@321");
-        loginPage.submitLogin();
+        // const loginPage = new LoginPage();
+        
+        // cy.visit("/");  // defined in cypress.json file
+
+        cy.xpath("//div//a[text()='login']").click();
 
 
-        this.skip();
+        
+        loginPg.fillMobileNum(MOBILE_NUMBER);
+        loginPg.fillPassword(PASSWORD);
+        loginPg.submitLogin();
+
+
+        // this.skip();
         
         //Visit Daraz Site
         // cy.visit("https://www.daraz.com.np");
@@ -55,6 +65,8 @@ describe('Login Suite', function () {
     })
 
     it('Search Test', function(){
+
+        // it.skip();
 
         
         cy.log('----------------- This is Search Test ---------------');

@@ -20,7 +20,7 @@ describe('Login Suite', function () {
             this.data = data;
 
 
-               })
+        })
 
 
         cy.log('----------------- This is Global Hook Login ---------------');
@@ -35,7 +35,7 @@ describe('Login Suite', function () {
         //  cy.darazLogin(this.data.mobile_num, this.data.password);
         cy.darazLogin(MOBILE_NUMBER, PASSWORD);
 
-             cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
+        cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
 
 
     })
@@ -86,18 +86,18 @@ describe('Login Suite', function () {
         // validate if logged in 
         // cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]",{timeout:"10000"}).should('be.visible').then(function ($getText) {
 
-            // cy.waitUntil(() => cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').then(function ($getText) {
+        // cy.waitUntil(() => cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').then(function ($getText) {
 
-                cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]",{timeout:"10000"}).should('be.visible').then(function ($getText) {
+        cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]", { timeout: "10000" }).should('be.visible').then(function ($getText) {
 
 
-        const getMessage = $getText.text();
+            const getMessage = $getText.text();
 
             cy.log(getMessage);
 
             // expect(getMessage).to.match(/.* account/);
 
-            expect(getMessage).to.match(/.+ account/);
+            // expect(getMessage).to.match(/.+ account/);
 
         })
 
@@ -133,7 +133,7 @@ describe('Login Suite', function () {
         // Select filter
         cy.xpath("//span[text()='Samsung']").should('be.visible').click();
 
-        
+
 
         cy.wait(3000);
 
@@ -183,7 +183,7 @@ describe('Login Suite', function () {
 
     })
 
-    it('Add to  Cart Test', function () {
+    it.only('Add to  Cart Test', function () {
 
 
         cy.log('----------------- This is Search Test ---------------');
@@ -205,9 +205,9 @@ describe('Login Suite', function () {
         // cy.darazLogin(this.data.mobile_num, this.data.password);
 
 
-        cy.xpath("//a//img[contains(@class,'c1ZEkM')]",{timeout:10000}).eq(0).should('be.visible').click();
+        cy.xpath("//a//img[contains(@class,'c1ZEkM')]", { timeout: 10000 }).eq(0).should('be.visible').click();
 
-        cy.xpath("//button//span[text()='Add to Cart']",{timeout:100000}).should('be.visible').click();
+        cy.xpath("//button//span[text()='Add to Cart']", { timeout: 100000 }).should('be.visible').click();
 
         // cy.xpath("//button//span[text()='Add to Cart']",{timeout:100000}).should(($x) => {
         //     expect($x).to.have.xpath("//input[@type='text' and @placeholder='Please enter your Phone Number or Email']",{timeout:10000}).scrollIntoView().should('be.visible').type(mobNum);
@@ -217,30 +217,32 @@ describe('Login Suite', function () {
 
         cy.wait(5000);
 
-        cy.frameLoaded('.login-iframe');
-        
+        cy.get('.login-iframe').find('')
+
+        // cy.frameLoaded('.login-iframe');
+
         // cy.iframe().type('');
-        cy.iframe().find("input[@placeholder='Please enter your Phone Number or Email']").type('hello');
+        // cy.iframe().find("input[@placeholder='Please enter your Phone Number or Email']").type('hello');
 
         // cy.xpath("//iframe[@class='login-iframe']").then(function($iFrame){
-            // const iFrameContent = $iFrame.contents().find("input[placeholder='Please enter your Phone Number or Email']").val('9803056815');
+        // const iFrameContent = $iFrame.contents().find("input[placeholder='Please enter your Phone Number or Email']").val('9803056815');
 
-            // cy.wrap(iFrameContent).click().type('9803056815');
-        })
-
-
-        // cy.wait(5000);
-
-        // cy.window().its('open').should('be.called')
-
-
-        // cy.darazLogin(MOBILE_NUMBER, PASSWORD);
-
-
-
-        // cy.xpath("//div[@class='lzd-nav-cart']").should('be.visible').click();
-
-        // cy.xpath("//label//span[@class='next-checkbox-inner']").eq(0).should('be.visible').click();
+        // cy.wrap(iFrameContent).click().type('9803056815');
     })
+
+
+    // cy.wait(5000);
+
+    // cy.window().its('open').should('be.called')
+
+
+    // cy.darazLogin(MOBILE_NUMBER, PASSWORD);
+
+
+
+    // cy.xpath("//div[@class='lzd-nav-cart']").should('be.visible').click();
+
+    // cy.xpath("//label//span[@class='next-checkbox-inner']").eq(0).should('be.visible').click();
+})
 
 

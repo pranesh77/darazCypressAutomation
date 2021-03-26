@@ -29,8 +29,8 @@ import 'cypress-iframe';
 
 
 
-Cypress.Commands.add("darazLogin", (mobNum, pw)=>{
-    cy.xpath("//input[@type='text' and @placeholder='Please enter your Phone Number or Email']",{timeout:10000}).scrollIntoView().should('be.visible').type(mobNum);
+Cypress.Commands.add("darazLogin", (email, pw)=>{
+    cy.xpath("//input[@type='text' and @placeholder='Please enter your Phone Number or Email']",{timeout:10000}).scrollIntoView().should('be.visible').type(email);
     cy.xpath("//input[@type='password' and @placeholder='Please enter your password']",{timeout:10000}).should('be.visible').type(pw);
     cy.xpath("//button[@type='submit' and text()='LOGIN']").click();
 
@@ -56,48 +56,44 @@ Cypress.Commands.add('sortByRating',(position)=>{
 })
 
 
+// FOR FUTURE REFERENCE
 
-
-Cypress.Commands.add("login", () => {
-    cy.get('#anonLogin > .grey',).click()
-    cy.wait(5000) //DOING THIS WILL HELP TO WAIT FOR APIs
-    cy.waitUntil(
-        () =>
-        cy.get('.mod-login')
-                .should('be.visible'),
+// Cypress.Commands.add("login", () => {
+//     cy.get('#anonLogin > .grey',).click()
+//     cy.wait(5000) //DOING THIS WILL HELP TO WAIT FOR APIs
+//     cy.waitUntil(
+//         () =>
+//         cy.get('.mod-login')
+//                 .should('be.visible'),
                 
-        {
-            errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
-            timeout: 15000, // waits up to 2000 ms, default to 5000
-            interval: 500, // performs the check every 500 ms, default to 200
-        }
-    )
-    cy.waitUntil(
-        () =>
-        cy.get('.mod-login-input-loginName')
-                .should('be.visible'),
+//         {
+//             errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
+//             timeout: 15000, // waits up to 2000 ms, default to 5000
+//             interval: 500, // performs the check every 500 ms, default to 200
+//         }
+//     )
+//     cy.waitUntil(
+//         () =>
+//         cy.get('.mod-login-input-loginName')
+//                 .should('be.visible'),
                 
-        {
-            errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
-            timeout: 15000, // waits up to 2000 ms, default to 5000
-            interval: 500, // performs the check every 500 ms, default to 200
-        }
-    )
-    cy.waitUntil(
-        () =>
-        cy.get('.mod-input-password')
-                .should('be.visible'),
+//         {
+//             errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
+//             timeout: 15000, // waits up to 2000 ms, default to 5000
+//             interval: 500, // performs the check every 500 ms, default to 200
+//         }
+//     )
+//     cy.waitUntil(
+//         () =>
+//         cy.get('.mod-input-password')
+//                 .should('be.visible'),
                 
-        {
-            errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
-            timeout: 15000, // waits up to 2000 ms, default to 5000
-            interval: 500, // performs the check every 500 ms, default to 200
-        }
-    )
-
-      cy.get('.mod-login-input-loginName > input').type('ammuffying@gmail.com')
-      cy.get('.mod-input-password > input').type('Automation@123')
-      cy.get('.next-btn').should('have.text','LOGIN').click()
-});
+//         {
+//             errorMsg: 'Failed To View Quizzes in landing screen', // overrides the default error message
+//             timeout: 15000, // waits up to 2000 ms, default to 5000
+//             interval: 500, // performs the check every 500 ms, default to 200
+//         }
+//     )
+// });
 
 

@@ -1,5 +1,8 @@
 /// <reference types="cypress"/>
 
+
+// do not run this, main file is 'darazAssignment.spec.js'
+
 describe('Login In Daraz', ()=>{
 
     beforeEach(()=>{

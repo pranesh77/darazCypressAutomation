@@ -2,6 +2,8 @@ import loginPg from '../../PageObject/LoginPage.js'
 // import LoginPage from '../../PageObject/LoginPage.js'
 
 
+/// do not run this, valid file is "darazAssignment.spec.js"
+
 describe('Login Suite', function () {
 
     let MOBILE_NUMBER = "9803056815";

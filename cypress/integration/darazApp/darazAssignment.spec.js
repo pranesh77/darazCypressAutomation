@@ -211,7 +211,7 @@ describe('Login Suite', function () {
 
     })
 
-    it('Oliz page, free delivery and shop now', function () {
+    it.only('Oliz page, free delivery and shop now', function () {
 
         cy.darazSearch('Oliz Store');
 
@@ -224,8 +224,9 @@ describe('Login Suite', function () {
 
         cy.xpath("//div[@class='product-item-bottom']").eq(1).should('be.visible').click();
 
-        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should("include.text","Free")
+        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('eq','Free');
 
+        cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Rs. 59']").scrollIntoView().should('be.visible').should('have.text','Rs. 59');
     })
 })
 

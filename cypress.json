@@ -1,11 +1,11 @@
 {
-    "$schema": "https://on.cypress.io/cypress.schema.json",
-    "integrationFolder": "cypress/integration/darazApp",
-    "baseUrl": "https://www.daraz.com.np",
-    "theme":"halloween",
-
-    "env": {
-        "login_url": "https://www.daraz.com.np/",
-        "products_url": "/products"
-      }
+  "$schema": "https://on.cypress.io/cypress.schema.json",
+  "integrationFolder": "cypress/integration/darazApp",
+  "baseUrl": "https://www.daraz.com.np",
+  "theme": "halloween",
+  "chromeWebSecurity": false,
+  "env": {
+    "login_url": "https://www.daraz.com.np/",
+    "products_url": "/products"
+  }
 }

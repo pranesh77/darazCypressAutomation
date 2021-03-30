@@ -15,32 +15,39 @@ describe('Login Suite', function () {
     //rating level
     let RATING_RANGE = 2;
 
-
-    // before(function () {
-
-    //     // cy.fixture('login.json').then(function (data) {
-    //     //     MOBILE_NUMBER = data.mobile_num;
-    //     //     cy.log(MOBILE_NUMBER);
-    //     // })
+    Cypress.on('uncaught:exception', (err, runnable) => {
+        console.log(err)
+        return false
+    })
 
 
-    //     cy.log('----------------- This is Global Hook Login ---------------');
+    before(function () {
 
-    //     //Visit Daraz Site
-    //     cy.visit("https://www.daraz.com.np");
-
-    //     // cy.visit("/");  // defined in cypress.json file
-
-    //     //Click on Login Button
-    //     cy.xpath("//div//a[text()='login']").should('be.visible').click();
-
-    //     //  cy.darazLogin(this.data.mobile_num, this.data.password);
-    //     cy.darazLogin(EMAIL_ADDRESS, PASSWORD);
-
-    //     cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
+        // cy.fixture('login.json').then(function (data) {
+        //     MOBILE_NUMBER = data.mobile_num;
+        //     cy.log(MOBILE_NUMBER);
+        // })
 
 
-    // })
+        cy.log('----------------- This is Global Hook Login ---------------');
+
+        //Visit Daraz Site
+        cy.visit("https://www.daraz.com.np");
+
+        // cy.visit("/");  // defined in cypress.json file
+
+        //Click on Login Button
+        // cy.xpath("//div//a[text()='login']").should('be.visible').click();
+
+        // //  cy.darazLogin(this.data.mobile_num, this.data.password);
+        // cy.darazLogin(EMAIL_ADDRESS, PASSWORD);
+
+        // cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
+
+
+        
+
+    })
 
     //  cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
 
@@ -94,6 +101,8 @@ describe('Login Suite', function () {
 
         //assert
         cy.url().should("include", "q=" + SEARCH_QUERY);
+
+
 
     })
 
@@ -163,11 +172,7 @@ describe('Login Suite', function () {
 
     })
 
-    it('Add to  Cart Test', function () {
-
-        
-        // cy.xpath("//a//img[@class='fs-card-img']").eq(0).scrollIntoView().should('be.visible').click();
-
+    it('Add / Remove item on Cart', function () {
 
 
 
@@ -176,60 +181,52 @@ describe('Login Suite', function () {
         cy.log("----------------- This is Add to Card Test ----------------- ");
 
 
+        // cy.xpath("//a//img[contains(@class,'c1ZEkM')]", { timeout: 10000 }).eq(0).should('be.visible').click({ force: true });
 
-        // cy.darazLogin(this.data.mobile_num, this.data.password);
 
-
-        cy.xpath("//a//img[contains(@class,'c1ZEkM')]", { timeout: 10000 }).eq(0).should('be.visible').click();
+        cy.waitUntil(() => cy.xpath("//a//img[contains(@class,'c1ZEkM')]").eq(0).should('be.visible').click({ force: true }), {
+            errorMsg:"Failed to fetch elements for visiting detail page",
+            timeout: 10000,
+            interval: 500
+        });
 
         cy.xpath("//button//span[text()='Add to Cart']", { timeout: 10000 }).scrollIntoView().should('be.visible').click();
 
-        // cy.xpath("//button//span[text()='Add to Cart']",{timeout:100000}).should(($x) => {
-        //     expect($x).to.have.xpath("//input[@type='text' and @placeholder='Please enter your Phone Number or Email']",{timeout:10000}).scrollIntoView().should('be.visible').type(mobNum);
-        //     cy.darazLogin(MOBILE_NUMBER, PASSWORD);
 
-        // })
+        // Iframe login 
 
-        // select all items from card
-      
-        // cy.get('.login-iframe').find('')
-
-        // cy.frameLoaded('.login-iframe');
-
-        // cy.iframe().type('');
-        // cy.iframe().find("input[@placeholder='Please enter your Phone Number or Email']").type('hello');
+        cy.iframe('.login-iframe').as('loginFrame');
+        cy.get('@loginFrame').find("input[placeholder='Please enter your Phone Number or Email']").type(EMAIL_ADDRESS);
+        cy.get('@loginFrame').find("input[type='password']").type(PASSWORD);
+        cy.get('@loginFrame').find("button[type='submit']").click();
 
 
+        cy.xpath("//div[@class='cart']//button[text()='GO TO CART']", { timeout: 10000 }).scrollIntoView().should('be.visible').click();
 
+        cy.xpath("//div[@class='checkbox-wrap']//input[@type='checkbox']", { timeout: 10000 }).should('be.enabled').click({force:true});
 
-        // cy.xpath("//iframe[@class='login-iframe']").then(function($iFrame){
-        // const iFrameContent = $iFrame.contents().find("input[placeholder='Please enter your Phone Number or Email']").val('9803056815');
+        cy.xpath("//div[@class='list-header-operations']//span[text()='Delete']", { timeout: 10000 }).should('be.visible').click();
 
-        // cy.wrap(iFrameContent).click().type('9803056815');
-
-
-
-          // cy.xpath("//div[@class='checkbox-wrap']//input[@type='checkbox']", { timeout: 10000 }).should('be.enabled').click();
-
-        // cy.xpath("//div//span[text()='Delete']").should('be.visible').click();
-
-        // cy.xpath("//div//button[text()='REMOVE']", { timeout: 10000 }).should('be.visible').click();
+        cy.xpath("//div[contains(@class,'mod-dialog-open')]//button[text()='REMOVE']", { timeout: 10000 }).should('be.visible').click();
 
     })
 
+    it('Oliz page, free delivery and shop now', function () {
 
-    // cy.wait(5000);
+        cy.darazSearch('Oliz Store');
 
-    // cy.window().its('open').should('be.called')
+        cy.xpath("//div[@class='cRjKsc']//img",{timeout:10000}).eq(1).should('be.visible').click({force:true});
+        cy.xpath("//div[@class='seller-name__wrapper']//a[@href]").scrollIntoView().should('be.visible').click({force:true});
 
+        cy.url().should("include", "/shop/oliz-store");
 
-    // cy.darazLogin(MOBILE_NUMBER, PASSWORD);
+        cy.xpath("//span[text()='Free Delivery']").should('be.visible').click();
 
+        cy.xpath("//div[@class='product-item-bottom']").eq(1).should('be.visible').click();
 
+        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should("include.text","Free")
 
-    // cy.xpath("//div[@class='lzd-nav-cart']").should('be.visible').click();
-
-    // cy.xpath("//label//span[@class='next-checkbox-inner']").eq(0).should('be.visible').click();
+    })
 })
 
 

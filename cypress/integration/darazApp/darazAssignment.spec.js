@@ -211,7 +211,7 @@ describe('Login Suite', function () {
 
     })
 
-    it.only('Oliz page, free delivery and shop now', function () {
+    it('Oliz page, free delivery and shop now visit', function () {
 
         cy.darazSearch('Oliz Store');
 
@@ -223,10 +223,23 @@ describe('Login Suite', function () {
         cy.xpath("//span[text()='Free Delivery']").should('be.visible').click();
 
         cy.xpath("//div[@class='product-item-bottom']").eq(1).should('be.visible').click();
+    })
 
-        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('eq','Free');
+    it('Free delivery test', function () {
 
-        cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Rs. 59']").scrollIntoView().should('be.visible').should('have.text','Rs. 59');
+
+        // Free Delivery
+
+        cy.darazSearch('Razer Viper Mini');
+        
+        cy.xpath("//div[@class='cRjKsc']//img",{timeout:10000}).eq(0).should('be.visible').click({force:true});
+        
+        cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('have.text','Free');
+
+        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('contain','Free');
+
+
+        // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Rs. 59']").scrollIntoView().should('be.visible').should('have.text','Rs. 59');
     })
 })
 

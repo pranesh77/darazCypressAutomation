@@ -225,10 +225,11 @@ describe('Login Suite', function () {
         cy.xpath("//div[@class='product-item-bottom']").eq(1).should('be.visible').click();
     })
 
-    it('Free delivery test', function () {
+    it('Free delivery no shipping fee test', function () {
 
 
-        // Free Delivery
+        // Free Delivery 
+        // Had to do this way as sometimes on previous method it showed shipping fee instead of free delivery
 
         cy.darazSearch('Razer Viper Mini');
         
@@ -240,6 +241,20 @@ describe('Login Suite', function () {
 
 
         // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Rs. 59']").scrollIntoView().should('be.visible').should('have.text','Rs. 59');
+    })
+
+    it('Save more button click and verify app download link', function(){
+        
+        cy.xpath("//div//span[text()='SAVE MORE ON APP']",{timeout:10000}).scrollIntoView().should('be.visible').click();
+        cy.xpath("//div[@class='get-the-app']",{timeout: 10000}).should('be.visible');
+
+        // For IOS APP Store
+        cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr','href').and('include','itunes.apple.com/app/id978058048');
+        // cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr','href').and('contain','itunes.apple.com/app/id978058048');
+
+        // For Android Play Store   
+        cy.xpath("//div[@class='app-stores']//a").eq(1).should('have.attr','href').and('include','play.google.com/store/apps/details?id=com.daraz.android');
+
     })
 })
 

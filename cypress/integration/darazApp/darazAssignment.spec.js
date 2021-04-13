@@ -42,10 +42,11 @@ describe('Login Suite', function () {
         // //  cy.darazLogin(this.data.mobile_num, this.data.password);
         // cy.darazLogin(EMAIL_ADDRESS, PASSWORD);
 
+
         // cy.xpath("//div//span[@id='myAccountTrigger' and contains(text(),'account')]").should('be.visible').should("include.text", "account");
 
 
-        
+
 
     })
 
@@ -65,7 +66,7 @@ describe('Login Suite', function () {
         cy.visit("https://www.daraz.com.np");
 
         //Click on Login Button
-        cy.xpath("//div//a[text()='login']").click();
+        // cy.xpath("//div//a[text()='login']").click();
 
         // cy.darazLogin(this.data.mobile_num, this.data.password);
         cy.darazLogin(EMAIL_ADDRESS, PASSWORD);
@@ -172,6 +173,7 @@ describe('Login Suite', function () {
 
     })
 
+
     it('Add / Remove item on Cart', function () {
 
 
@@ -185,7 +187,7 @@ describe('Login Suite', function () {
 
 
         cy.waitUntil(() => cy.xpath("//a//img[contains(@class,'c1ZEkM')]").eq(0).should('be.visible').click({ force: true }), {
-            errorMsg:"Failed to fetch elements for visiting detail page",
+            errorMsg: "Failed to fetch elements for visiting detail page",
             timeout: 10000,
             interval: 500
         });
@@ -195,15 +197,17 @@ describe('Login Suite', function () {
 
         // Iframe login 
 
-        cy.iframe('.login-iframe').as('loginFrame');
-        cy.get('@loginFrame').find("input[placeholder='Please enter your Phone Number or Email']").type(EMAIL_ADDRESS);
-        cy.get('@loginFrame').find("input[type='password']").type(PASSWORD);
-        cy.get('@loginFrame').find("button[type='submit']").click();
+        cy.LoginUsingIframe(EMAIL_ADDRESS, PASSWORD);
+
+        // cy.iframe('.login-iframe').as('loginFrame');
+        // cy.get('@loginFrame').find("input[placeholder='Please enter your Phone Number or Email']").type(EMAIL_ADDRESS);
+        // cy.get('@loginFrame').find("input[type='password']").type(PASSWORD);
+        // cy.get('@loginFrame').find("button[type='submit']").click();
 
 
         cy.xpath("//div[@class='cart']//button[text()='GO TO CART']", { timeout: 10000 }).scrollIntoView().should('be.visible').click();
 
-        cy.xpath("//div[@class='checkbox-wrap']//input[@type='checkbox']", { timeout: 10000 }).should('be.enabled').click({force:true});
+        cy.xpath("//div[@class='checkbox-wrap']//input[@type='checkbox']", { timeout: 10000 }).should('be.enabled').click({ force: true });
 
         cy.xpath("//div[@class='list-header-operations']//span[text()='Delete']", { timeout: 10000 }).should('be.visible').click();
 
@@ -215,8 +219,8 @@ describe('Login Suite', function () {
 
         cy.darazSearch('Oliz Store');
 
-        cy.xpath("//div[@class='cRjKsc']//img",{timeout:10000}).eq(1).should('be.visible').click({force:true});
-        cy.xpath("//div[@class='seller-name__wrapper']//a[@href]").scrollIntoView().should('be.visible').click({force:true});
+        cy.xpath("//div[@class='cRjKsc']//img", { timeout: 10000 }).eq(0).should('be.visible').click({ force: true });
+        cy.xpath("//div[@class='seller-name__wrapper']//a[@href]").scrollIntoView().should('be.visible').click({ force: true });
 
         cy.url().should("include", "/shop/oliz-store");
 
@@ -225,17 +229,38 @@ describe('Login Suite', function () {
         cy.xpath("//div[@class='product-item-bottom']").eq(1).should('be.visible').click();
     })
 
+
+    it('Save more button click and verify app download link', function () {
+
+        cy.xpath("//div//span[text()='SAVE MORE ON APP']", { timeout: 10000 }).scrollIntoView().should('be.visible').click();
+        cy.xpath("//div[@class='get-the-app']", { timeout: 10000 }).should('be.visible');
+
+        // For IOS APP Store
+        cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr', 'href').and('include', 'itunes.apple.com/app/id978058048');
+        // cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr','href').and('contain','itunes.apple.com/app/id978058048');
+
+        // For Android Play Store   
+        cy.xpath("//div[@class='app-stores']//a").eq(1).should('have.attr', 'href').and('include', 'play.google.com/store/apps/details?id=com.daraz.android');
+
+        // Click outside Save more button area
+        cy.xpath("//div[@class='lzd-links-bar']").click();
+
+
+    })
+
     it('Free delivery no shipping fee test', function () {
 
 
         // Free Delivery 
         // Had to do this way as sometimes on previous method it showed shipping fee instead of free delivery
 
+        cy.darazLogin(EMAIL_ADDRESS, PASSWORD);
+
         cy.darazSearch('Razer Viper Mini');
-        
-        cy.xpath("//div[@class='cRjKsc']//img",{timeout:10000}).eq(0).should('be.visible').click({force:true});
-        
-        cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('have.text','Free');
+
+        cy.xpath("//div[@class='cRjKsc']//img", { timeout: 10000 }).eq(0).should('be.visible').click({ force: true });
+
+        cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('have.text', 'Free');
 
         // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Free']").scrollIntoView().should('be.visible').should('contain','Free');
 
@@ -243,19 +268,77 @@ describe('Login Suite', function () {
         // cy.xpath("//div[@class='delivery-option-item__shipping-fee' and text()='Rs. 59']").scrollIntoView().should('be.visible').should('have.text','Rs. 59');
     })
 
-    it('Save more button click and verify app download link', function(){
-        
-        cy.xpath("//div//span[text()='SAVE MORE ON APP']",{timeout:10000}).scrollIntoView().should('be.visible').click();
-        cy.xpath("//div[@class='get-the-app']",{timeout: 10000}).should('be.visible');
 
-        // For IOS APP Store
-        cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr','href').and('include','itunes.apple.com/app/id978058048');
-        // cy.xpath("//div[@class='app-stores']//a").eq(0).should('have.attr','href').and('contain','itunes.apple.com/app/id978058048');
+    it('API test', function () {
 
-        // For Android Play Store   
-        cy.xpath("//div[@class='app-stores']//a").eq(1).should('have.attr','href').and('include','play.google.com/store/apps/details?id=com.daraz.android');
+        cy.xpath("//div//button[text()='ASK QUESTIONS']", { timeout: 10000 }).scrollIntoView().should('be.visible');
 
-    })
+        // cy.intercept("POST", "/pdp/item/addItemSkuQA").as('askQuestion');
+
+        cy.intercept("POST", "/pdp/item/addItemSkuQA").as("askQuestion");
+
+        // cy.intercept('POST', '/pdp/item/addItemSkuQA', {
+        //     // fixture: 'askQuestion.json'
+        // }).as('addFacility')
+
+        // cy.xpath("//div[contains(@class,'qna-ask-box')]").eq(0).scrollIntoView().should('be.visible').click().type('Random Question Posted by Pranesh');
+
+        cy.xpath("//div[contains(@class,'qna-ask-box')]").eq(0).scrollIntoView().should('be.visible').click().type('Any New Year Offer on price discount?');
+
+        cy.xpath("//div//button[text()='ASK QUESTIONS']").click();
+
+
+        // cy.intercept("POST", "https://my.daraz.com.np/pdp/item/addItemSkuQA", { content: 'ABC Pranesh', statusCode: 200 }).as("askQuestion");
+
+
+
+
+        cy.wait('@askQuestion').then((resp) => {
+            cy.log(resp);
+            console.log(resp);
+        })
+
+
+
+
+        // cy.wait("@askQuestion");
+        // cy.get("@askQuestion").then(req => {
+        //     cy.log(req);
+
+        //     console.log(req);
+        // })
+
+
+        // Intercept must be called before not after
+        // cy.intercept("POST","https://my.daraz.com.np/pdp/item/addItemSkuQA",{content:'ABC Pranesh',statusCode:200}).as('askQuestion').then(response=>{
+
+
+
+
+        // const question = {
+        // "content": "hello world"
+        // }
+
+
+        //     cy.intercept("POST", "/pdp/item/addItemSkuQA").as("askQuestionAPI");
+
+        // cy.wait("@askQuestionAPI").then(({ request, response }) => {
+        //     cy.log(request);
+        //     cy.log(response);
+        //     expect(response.statusCode).to.eq(200);
+
+        // cy.log(response);
+
+        // const {status}  = response
+
+
+        // cy.wait('@askQuestion').its(response.body);
+
+    });
+
+      
+
+
 })
 
 

@@ -61,6 +61,9 @@ Cypress.Commands.add('priceRange', (lowPrice, highPrice) => {
 
     cy.waitUntil(() => cy.xpath("//input[@type='number' and @placeholder='Max']").scrollIntoView().should('be.visible').click().type(highPrice));
 
+        cy.xpath("//button[@type='button' and contains(@class,'ant-btn')]").click();
+
+
     // cy.wait('@minWaitTimeout');
 })
 
